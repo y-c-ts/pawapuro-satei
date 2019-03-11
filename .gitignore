@@ -3,5 +3,9 @@
 .ipynb
 
 # ディレクトリ
+/lib
+/bin
+/include
+/__pycache__
 
 # ワイルドカード
