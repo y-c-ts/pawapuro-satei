@@ -1,6 +1,7 @@
 #ファイル
 .DS_Store
 .ipynb
+.cfg
 
 # ディレクトリ
 /lib
