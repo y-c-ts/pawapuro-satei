@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 import numpy as np
 import itertools
 from data import AVILITY_DICT,AVILITY_LIST,IS_GOLD,GOLD_LIST,GOLD_TO_BLUE,SECOND_AVILITY_LIST,SECOND_TO_FAST,BASE_MAX
@@ -28,20 +28,20 @@ class MaximizeScore(object):
         self.base_limit_list = data_agg_obj.base_limit_list.astype(np.int)
         self.base_level_list = data_agg_obj.base_level_list.astype(np.int)
 
-        self.avility_df = self.apply_sense(pd.concat([pd.read_csv('野手青特能.csv',index_col=0),pd.read_csv('野手金特能.csv',index_col=0)]))
-        self.green_avility = pd.read_csv('野手緑特能.csv', index_col=0)
+        self.avility_df = self.apply_sense(pd.concat([pd.read_csv('./data/野手青特能.csv',index_col=0),pd.read_csv('./data/野手金特能.csv',index_col=0)]))
+        self.green_avility = pd.read_csv('./data/野手緑特能.csv', index_col=0)
 
-        self.meet_df = self.apply_sense(pd.read_csv('ミート.csv',index_col=0).fillna(0))
-        self.dando_df = self.apply_sense(pd.read_csv('弾道.csv',index_col=0).fillna(0))
-        self.power_df = self.apply_sense(pd.read_csv('パワー.csv',index_col=0).fillna(0))
-        self.speed_df = self.apply_sense(pd.read_csv('走力.csv',index_col=0).fillna(0))
-        self.syubi_df = self.apply_sense(pd.read_csv('守備.csv',index_col=0).fillna(0))
+        self.meet_df = self.apply_sense(pd.read_csv('./data/ミート.csv',index_col=0).fillna(0))
+        self.dando_df = self.apply_sense(pd.read_csv('./data/弾道.csv',index_col=0).fillna(0))
+        self.power_df = self.apply_sense(pd.read_csv('./data/パワー.csv',index_col=0).fillna(0))
+        self.speed_df = self.apply_sense(pd.read_csv('./data/走力.csv',index_col=0).fillna(0))
+        self.syubi_df = self.apply_sense(pd.read_csv('./data/守備.csv',index_col=0).fillna(0))
         self.kata_df = self.apply_sense(pd.read_csv('肩.csv',index_col=0).fillna(0))
-        self.hokyu_df = self.apply_sense(pd.read_csv('捕球.csv',index_col=0).fillna(0))
-        
+        self.hokyu_df = self.apply_sense(pd.read_csv('./data/捕球.csv',index_col=0).fillna(0))
+
         self.run()
-        
-    
+
+
     def run(self):
         self.apply_avility_level()
         self.remove_acquired_avility()
@@ -51,7 +51,7 @@ class MaximizeScore(object):
         self.final_special_arr = np.append(self.current_special_arr, add_special_arr)
         self.update_base_arr = add_base_arr
         self.remove_low_level_avility()
-   
+
     def remove_acquired_avility(self):
         self.remove_acquired_special_avility()
         self.meet_df = self.get_satei_df(self.meet_df, MEET_IDX)
@@ -61,7 +61,7 @@ class MaximizeScore(object):
         self.kata_df = self.get_satei_df(self.kata_df, KATA_IDX)
         self.syubi_df = self.get_satei_df(self.syubi_df, SYUBI_IDX)
         self.hokyu_df = self.get_satei_df(self.hokyu_df, HOKYU_IDX)
-    
+
     def remove_acquired_special_avility(self):
         for avility in self.current_special_arr:
             if avility in GOLD_LIST:
@@ -83,7 +83,7 @@ class MaximizeScore(object):
             if satei_series[i] != satei_series[i+1]:
                 change_idx_list.append(i+1)
         return change_idx_list
-    
+
     def preprocess_base_df(self, base_df, base_idx):
         base_df = self.apply_base_level(base_df, base_idx, self.base_level_list[base_idx])
         satei_series = base_df['査定値']
@@ -101,7 +101,7 @@ class MaximizeScore(object):
             append_df.index = [tmp_df.index[-1]]
             df = df.append(append_df)
         return df
-    
+
     def get_satei_df(self, base_df, base_idx):
         base_satei_df = self.preprocess_base_df(base_df, base_idx)
         current_base = self.current_base_arr[base_idx]
@@ -120,9 +120,9 @@ class MaximizeScore(object):
                 use_base_satei_df['査定値'].iloc[0] = satei
             else:
                 return pd.DataFrame()
-            
+
         return use_base_satei_df
-    
+
     def apply_avility_level(self):
         satei_series = self.avility_df['査定値']
         self.avility_df.drop('査定値',axis=1,inplace=True)
@@ -144,7 +144,7 @@ class MaximizeScore(object):
         self.avility_df.loc[:,['筋力','敏捷','技術','精神','変化球']] = self.avility_df.loc[:,['筋力','敏捷','技術','精神','変化球']].applymap(math.floor)
         self.avility_df['査定値'] = satei_series
         return self.avility_df
-    
+
     def apply_one_avility_level(self, df, avility, level):
         if avility in GOLD_LIST:
             df.loc[avility] = df.loc[avility] * level
@@ -164,13 +164,13 @@ class MaximizeScore(object):
                 else:
                     df.loc[avility] = df.loc[avility] * level
         return df
-    
+
     def apply_base_level(self, base_df, base_idx ,level):
         if base_idx != 0:
             base_df.loc[:,['筋力','敏捷','技術','変化球','精神']] = \
             (base_df.loc[:,['筋力','敏捷','技術','変化球','精神']] * (1 - (level * 0.02))).applymap(math.floor)
         return base_df
-    
+
     def _get_cumsum_df(self, base_df, base_name):
         if len(base_df) > 0:
             base_df = base_df.copy()
@@ -182,14 +182,14 @@ class MaximizeScore(object):
         else:
             return pd.DataFrame()
         return base_df.cumsum()
-    
+
     def apply_sense(self, df):
         if self.sense == 'sense':
             df.loc[:,['筋力','敏捷','技術','変化球','精神']] = (df.loc[:,['筋力','敏捷','技術','変化球','精神']] * 0.9).applymap(math.floor)
         elif self.sense == 'nonsense':
             df.loc[:,['筋力','敏捷','技術','変化球','精神']] = (df.loc[:,['筋力','敏捷','技術','変化球','精神']] * 1.1).applymap(math.floor)
         return df
-    
+
     def _get_search_df(self):
         dando_cum = self._get_cumsum_df(self.dando_df,'dando')
         meet_cum = self._get_cumsum_df(self.meet_df, 'meet')
@@ -201,7 +201,7 @@ class MaximizeScore(object):
         search_df = pd.concat([self.avility_df, meet_cum, power_cum, hokyu_cum,
                                     dando_cum, kata_cum, syubi_cum, speed_cum])
         return search_df
-    
+
     def _pick_base_avility(self, final_avility_list):
         delete_ids = []
         base_arr = np.zeros(7)
@@ -227,10 +227,10 @@ class MaximizeScore(object):
             elif 'hokyu' in avility:
                 base_arr[HOKYU_IDX] = avility.split('_')[1]
                 delete_ids.append(i)
-                
+
         return base_arr, np.delete(final_avility_list,delete_ids)
 
-    
+
     def search_max_satei(self):
         df = self._get_search_df()
         avility_names = df.index
@@ -252,14 +252,14 @@ class MaximizeScore(object):
         self.remove_impossible_avility('インコース○','アウトコース○',avility_names, m, df)
         self.remove_impossible_avility('ローボールヒッター','ハイボールヒッター',avility_names, m, df)
         self.remove_impossible_avility('広角打法','プルヒッター',avility_names, m, df)
-      
+
         m.solve()
         df['val'] = df.x.apply(lambda v: value(v))
         get_avility_arr = df[df.val == 1].index
         print(df[df.val == 1].sum())
         base_arr, final_avility_arr = self._pick_base_avility(get_avility_arr)
         return base_arr, final_avility_arr,df
-        
+
     def remove_impossible_avility(self, avility1, avility2, avility_names, lp_obj, df):
         if avility1 in avility_names and avility2 in avility_names:
             lp_obj += lpSum(df.loc[[avility1,avility2]]['x']) <= 1
@@ -267,7 +267,7 @@ class MaximizeScore(object):
             lp_obj += lpSum(df.loc[[avility1]]['x']) <= 0
         elif avility2 in avility_names:
             lp_obj += lpSum(df.loc[[avility2]]['x']) <= 0
-    
+
     def remove_duplicate_avility(self, df, avility_list, lp_obj):
         for avility in avility_list:
             if avility in GOLD_LIST:
@@ -295,14 +295,3 @@ class MaximizeScore(object):
                     if av in self.current_special_arr:
                         del_idx = np.where(self.current_special_arr == av)[0][0]
                         self.current_special_arr = np.delete(self.current_special_arr,del_idx)
-                
-                
-        
-                            
-                    
-            
-        
-                
-    
-
-
