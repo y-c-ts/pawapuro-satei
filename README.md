@@ -1,5 +1,5 @@
-# pawapuro-satei
+# satei-simu-pawapuro
 
-## パワプロ査定最大化
+#### パワプロ査定最大化するシミュレーターです
 
-#### 追加
+
