@@ -1,0 +1,130 @@
+.my-navbar{
+    font-size: 20px;
+    margin-bottom: 0px
+}
+
+.my-form-label{
+    margin-right: 5px;
+}
+
+/* header ; */
+
+header img{
+    bottom: 0;
+    right: 0
+}
+
+.header-bg {
+    color: white;
+    background-color: black;
+    background-size: cover;
+    position: relative;
+}
+
+header h1{
+   position: relative;
+   top: 30px;
+   text-align: center;
+   font-family: “HGP行書体”,“ＭＳＰ明朝”, “MS PMincho”, serif;
+}
+
+header p{
+    position: relative;
+    top: 50px;
+    font-size: 20px;
+    text-align: center;
+    font-family: “HGP行書体”,“ＭＳＰ明朝”, “MS PMincho”, serif;
+}
+
+
+/* add avivilty ; */
+.avility {
+    position: relative;
+    left: 10px;
+    top: 25px;
+    
+    float: bottom;
+}
+
+
+.avility .get_avility{
+    min-width: 150px;
+    max-width: 150px;
+    text-align: center;
+    height: 35px;
+    font-size: 14px;
+    margin-right:20px;
+}
+
+th{
+    width:260px;
+    min-width: 260px;
+    max-width: 260px;
+    height: 10px;
+    text-align: center;
+}
+
+#having-avility{
+    width: 170px;
+    min-width: 170px;
+    max-width: 170px;
+}
+
+td {
+    width:260px;
+    min-width: 260px;
+    max-width: 260px;
+    height: 10px;
+}
+
+.button_td {
+    width: 170px;
+    min-width: 170px;
+    max-width: 170px;
+    align-content: right;
+}
+
+.avility .First5Box{
+    position: relative;
+    min-width: 198px;
+    max-width: 198px;
+    margin-right: 10px; 
+    top:3px;
+}
+
+.avility .gold5Box{
+    position: relative;
+    min-width: 198px;
+    max-width: 198px;
+    top:3px;
+}
+
+.input-avility-level{
+    margin-top: 50px;
+}
+
+.input-avility-level h1{
+    margin-bottom: 15px;
+    font-size: 30px;
+    font-family: “HGP行書体”,“ＭＳＰ明朝”, “MS PMincho”, serif;
+}
+
+.radio-custom{
+    margin-right: 4px;
+}
+
+
+ol, ul {
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+
+li {
+    display: flex;
+    height: 50px;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -khtml-touch-callout: none;
+}

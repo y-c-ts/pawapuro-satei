@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>パワプロ査定シュミ</title>
+    <link rel="icon" href="/static/favicon.ico">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/css/main-style.css">   
+    <script>
+        var avility_list = ['チャンス○','対左投手○','盗塁○','走塁○','送球○','ケガしにくさ○','キャッチャー○','アベレージヒッター','パワーヒッター','プルヒッター',
+        '広角打法','内野安打○', '流し打ち','固め打ち','粘り打ち','悪球打ち','意外性','バント○','初球○','代打○',
+        'チャンスメーカー','ヘッドスライディング','ホーム突入','満塁男','サヨナラ男','逆境○','ハイボールヒッター','ローボールヒッター','対エース○','ムード○',
+        'レーザービーム','守備職人','高速チャージ','ホーム死守','プレッシャーラン','いぶし銀','ささやき戦術','追い打ち','帳尻合わせ','気分屋',
+        'ラッキーボーイ','連打○','リベンジ','インコース○','アウトコース○','ささやき破り','本塁生還','ラッキーセブン','バズーカ','司令塔',
+        '競争心','打球ノビ','盗塁アシスト','アイコンタクト','速攻○','上り調子', '窮地◯','読心術','情熱エール','打開', 
+        '接戦○','祝福', '鼓舞','かく乱','挑発','一発逆転','一掃', '初撃', '冷静', 'サイン察知', 
+        '四番○', '孤高', '走力ブースト', '守備移動○', '痛打','ファースト○','セカンド○','サード○'];
+
+        var is_gold = [1,1,1,1,1,1,1,1,1,1,
+                1,1,1,1,0,0,1,0,1,1,
+                1,1,1,1,1,1,1,1,1,1,
+                1,1,0,1,0,0,1,1,0,0,
+                1,1,1,1,1,0,1,0,1,1,
+                1,1,0,1,0,1,1,1,1,1,
+                0,1,1,1,1,1,1,1,1,1,
+                1,1,1,1,1,1,1,1];             
+                
+            var avility_detail = {'チャンス○':['チャンス○','チャンス◎','勝負師'], '対左投手○':['対左投手○','対左投手◎','左キラー'],
+            '盗塁○':['盗塁○','盗塁◎','電光石火'],'走塁○':['走塁○','走塁◎','高速ベースラン'],'送球○':['送球○','送球◎','ストライク送球'],
+            'ケガしにくさ○':['ケガしにくさ○','ケガしにくさ◎','鉄人'],'キャッチャー○':['キャッチャー○','キャッチャー◎','球界の頭脳'],
+            'アベレージヒッター':['アベレージヒッター','安打製造機'],'パワーヒッター':['パワーヒッター','アーチスト'],'プルヒッター':['プルヒッター','伝説の引っ張り屋'],
+            '広角打法':['広角打法','広角砲'],'内野安打○':['内野安打○','内野安打王'],'流し打ち':['流し打ち','芸術的流し打ち'],'固め打ち':['固め打ち','メッタ打ち'],'粘り打ち':['粘り打ち'],
+            '悪球打ち':['悪球打ち'],'意外性':['意外性','大番狂わせ'],'バント○':['バント○','バント職人'],'初球○':['初球○','一球入魂'],'代打○':['代打○','代打の神様'],
+            'チャンスメーカー':['チャンスメーカー','切り込み隊長'],'ヘッドスライディング':['ヘッドスライディング','気迫ヘッド'],'ホーム突入':['ホーム突入','重戦車'],'満塁男':['満塁男','恐怖の満塁男'],
+            'サヨナラ男':['サヨナラ男','伝説のサヨナラ男'],'逆境○':['逆境○','火事場の馬鹿力'],'ハイボールヒッター':['ハイボールヒッター','高球必打'],'ローボールヒッター':['ローボールヒッター','低球必打'],
+            '対エース○':['対エース○','エースキラー'],'ムード○':['ムード○','精神的支柱'],'レーザービーム':['レーザービーム','高速レーザー'],'守備職人':['守備職人','魔術師'],
+            '高速チャージ':['高速チャージ'],'ホーム死守':['ホーム死守','鉄の壁'],'プレッシャーラン':['プレッシャーラン'],'いぶし銀':['いぶし銀'],'ささやき戦術':['ささやき戦術'],
+            '追い打ち':['追い打ち','ハゲタカ'],'帳尻合わせ':['帳尻合わせ'],'気分屋':['気分屋'],'ラッキーボーイ':['ラッキーボーイ','超ラッキーボーイ'],'連打○':['連打○','つるべ打ち'],
+            'リベンジ':['リベンジ','逆襲'],'インコース○':['インコース○','内角必打'],'アウトコース○':['アウトコース○','外角必打'],'ささやき破り':['ささやき破り'],'本塁生還':['本塁生還','帰巣本能'],
+            'ラッキーセブン':['ラッキーセブン'],'バズーカ':['バズーカ'],'司令塔':['司令塔'],'競争心':['競争心','切磋琢磨'],'打球ノビ':['打球ノビ○','打球ノビ◎','ローリング打法'],
+            '盗塁アシスト':['盗塁アシスト'],'アイコンタクト':['アイコンタクト'],'速攻○':['速攻○'],'上り調子':['上り調子','昇り龍'],'窮地◯':['窮地◯','ヒートアップ'],'読心術':['読心術'],
+            '情熱エール':['情熱エール'],'打開':['打開','一番槍'],'接戦○':['接戦○'],'祝福':['祝福'],'鼓舞':['鼓舞','ミラクルボイス'],'かく乱':['かく乱','トリックスター'],
+            '挑発':['挑発'],'一発逆転':['一発逆転','一発逆転王'],'一掃':['一掃','スイープ'],'初撃':['初撃','洗礼の一撃'],'冷静':['冷静','明鏡止水'],'サイン察知':['サイン察知','看破'],
+            '四番○':['四番○','不動の四番'],'孤高':['孤高','孤軍奮闘'],'走力ブースト':['走力ブースト','走力バースト'],'守備移動○':['守備移動○','牛若丸'],'痛打':['痛打','大打撃'],
+            'ファースト○':['ファースト○','至高の一塁手'],'セカンド○':['セカンド○','至高の二塁手'],'サード○':['サード○','至高の三塁手']
+            };
+
+        window.onload = function(){
+            var table = document.getElementById('blue-avility')
+            for (i=0; i < avility_list.length; i++){
+                var one_avility_tr = document.createElement('tr');
+                one_avility_tr.className = 'avility';
+                one_avility_tr.id = 'avility' + '_' + avility_list[i];
+                var td_button = document.createElement('td');
+                td_button.className = 'button_td';
+                td_button.align = 'center';
+                var button = document.createElement('input');
+                button.value = avility_list[i];
+                button.type = "button";
+                button.id = i;
+                button.name = 'button-button-button';
+                button.onclick = changeColor;
+                if(is_gold[i]==1 && avility_detail[avility_list[i]].length == 1){
+                    button.className = 'btn btn-outline-warning get_avility';
+                    add_td = make5RadioBoxes(avility_list[i], 'First5Box', through_flag=true);
+                }
+                else{
+                    button.className = 'btn btn-outline-primary get_avility';
+                    add_td = make5RadioBoxes(avility_list[i], 'First5Box', through_flag=false);
+                }
+                td_button.appendChild(button);
+                one_avility_tr.appendChild(td_button);
+                one_avility_tr.appendChild(add_td);
+                if(is_gold[i] == 1){
+                    add_gold_td = make5RadioBoxes('gold_' + avility_list[i], 'gold5Box', through_flag=false); 
+                    one_avility_tr.appendChild(add_gold_td);
+                }
+                table.appendChild(one_avility_tr);
+            }
+        }
+
+        function get_buttons_content(){
+            var avility_str = ''; 
+            for(i=0; i < avility_list.length; i++){
+                var button_elem = document.getElementById(i);
+                if((button_elem.className == 'btn btn-primary get_avility')|| (button_elem.className == 'btn btn-warning get_avility')){
+                    avility_str += button_elem.value + '_'
+                }
+            }
+            var submit_elm = document.getElementById('get_avility_str');
+            submit_elm.value = avility_str;
+        }
+                
+
+        function make5RadioBoxes(avilityName, className, through_flag){
+            master_div = document.createElement('td');
+            master_div.align = 'center';
+            master_div.className = className;
+            master_div.id = className + '_' + avilityName;
+            if(through_flag){
+                return master_div
+            }
+            else{
+                var div = document.createElement('div');
+                div.className = "form-check form-check-inline custom-radio";
+                for(j=0; j<6; j++){
+                    var input = document.createElement('input');
+                    input.className = "form-check-input radio-input";
+                    input.type = "radio";
+                    input.name = "Radio" + '_' + avilityName;
+                    input.value = "option" + j;
+                    input.id = 'inlineRadio' + j + '_' + avilityName;
+                    var label = document.createElement('label');
+                    label.className = "form-check-label my-form-label"; 
+                    label.htmlFor = 'inlineRadio' + j + '_' + avilityName;
+                    label.innerHTML = j;
+                    if(j==0){
+                        input.checked = "checked";
+                    }
+                    div.appendChild(input);
+                    div.appendChild(label);
+                master_div.appendChild(div)
+                }
+                return master_div
+            }
+        }
+
+        function addGoldBoxes(avilityName){
+            var added_elem = document.getElementById('avility_' + avilityName);
+            add_elem = make5RadioBoxes('gold_' + avilityName, 'gold5Box') 
+            added_elem.appendChild(add_elem)
+        }
+
+        function changeColor(e){
+            var obj = e.srcElement;
+            var id = obj.id;
+            var name = avility_list[id];
+            var gold = is_gold[id];
+            var list = avility_detail[name];
+            var n_list = list.length;
+            if (n_list == 1){
+                if(gold == 0){
+                    if(obj.className == 'btn btn-outline-primary get_avility'){
+                        obj.className = "btn btn-primary get_avility";
+                    }
+                    else{
+                        obj.className = 'btn btn-outline-primary get_avility';
+                    }
+                }
+                else{
+                    if(obj.className == 'btn btn-outline-warning get_avility'){
+                        obj.className = "btn btn-warning get_avility";
+                    }
+                    else{
+                        obj.className = 'btn btn-outline-warning get_avility';
+                    }
+                }
+            }
+            else if(n_list == 2){
+                if(gold == 0){
+                    if(obj.className == 'btn btn-outline-primary get_avility'){
+                        obj.value = list[0];
+                        obj.className = "btn btn-primary get_avility";
+                    }
+                    else if(obj.value == list[0]){
+                        obj.value = list[1];
+                    }
+                    else{
+                        obj.value = list[0];
+                        obj.className = 'btn btn-outline-primary get_avility';
+                    }
+                }
+                else{
+                    if(obj.className == 'btn btn-outline-primary get_avility'){
+                        obj.value = list[0];
+                        obj.className = "btn btn-primary get_avility";
+                    }
+                    else if(obj.value == list[0]){
+                        obj.value = list[1];
+                        obj.className = "btn btn-warning get_avility";
+                    }
+                    else{
+                        obj.value = list[0];
+                        obj.className = "btn btn-outline-primary get_avility";
+                    }
+                }
+            }
+            else{
+                if(obj.className == 'btn btn-outline-primary get_avility'){
+                    obj.value = list[0];
+                    obj.className = "btn btn-primary get_avility";
+                }
+                else if(obj.value == list[0]){
+                    obj.value = list[1];
+                    obj.className = "btn btn-primary get_avility";
+                }
+                else if(obj.value == list[1]){
+                    obj.value = list[2];
+                    obj.className = "btn btn-warning get_avility";
+                }
+                else{
+                    obj.value = list[0];
+                    obj.className = "btn btn-outline-primary get_avility";
+                }
+            }
+        }
+
+        
+    </script>
+</head>
+<body>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <header class="header-bg">
+        <h1>パワプロ査定シミュレーター！！！</h1>
+        <p>
+            ~ 簡単に最大の査定効率を割り出せる！ ~
+        </p>
+        <img src="static/img/header1.jpeg" width="480" height="270" alt="Dotinstall Paneの画像">
+    </header>
+  
+    <!-- <div class="container">-->
+    <div class="tab">
+        <ul class="menu">
+            <li><a href="#" data-id="input" class="menu_item">入力画面</a></li>
+            <li><a href="#" data-id="output" class="active menu_item">結果画面</a></li>
+        </ul>
+    </div>
+    <div class="content" id="input">
+        <form method="POST" action="/">
+            <div class="sense">
+                <h2>・野球センス</h2>
+                <input type="radio" name="sense" value="sense" id="sense_○"><label for="sense_○">センス○</label>
+                <input type="radio" name="sense" value="bonsai" id="bonsai" checked><label for="bonsai">凡才</label>
+                <input type="radio" name="sense" value="nonsense" id="sense_x"><label for="sense_x">センス×</label>
+            </div>
+            <div class="sense" id="posi">
+                <h2>・ポジション</h2>
+                <input type="radio" name="position" value="hosyu" id="hosyu_p"><label for="hosyu_p">捕手</label>
+                <input type="radio" name="position" value="fast" checked id="fast_p"><label for="fast_p">一塁</label>
+                <input type="radio" name="position" value="second" id="second_p"><label for="second_p">二塁</label>
+                <input type="radio" name="position" value="third" id="third_p"><label for="third_p">三塁</label>
+                <input type="radio" name="position" value="short" id="short_p"><label for="short_p">遊撃</label>
+                <input type="radio" name="position" value="out" id="out_p"><label for="out_p">外野</label>
+            </div>
+            
+            <div class="sense" id="subposi">
+                <h2>・サブポジ</h2>
+                <input type="checkbox" name="subposi" value="hosyu" id="hosyu"><label for="hosyu">捕手</label>
+                <input type="checkbox" name="subposi" value="fast" checked id="fast"><label for="fast">一塁</label>
+                <input type="checkbox" name="subposi" value="second" id="second"><label for="second">二塁</label>
+                <input type="checkbox" name="subposi" value="third" id="third"><label for="third">三塁</label>
+                <input type="checkbox" name="subposi" value="short" id="short"><label for="short">遊撃</label>
+                <input type="checkbox" name="subposi" value="out" id="out"><label for="out">外野</label>
+            </div>
+
+            <section class="input-remaining-point">
+                <h2>・基礎コツレベル</h2>
+                <table class ="table table-striped table-bordered table-condensed" id="base-level-table">
+                    <tr>
+                        <th>ミート</th>
+                        <th>パワー</th>
+                        <th>走力</th>
+                        <th>肩力</th>
+                        <th>守備力</th>
+                        <th>捕球</th>
+                    </tr>
+                    <tr>
+                        <td><input type="number" class="input" name="meet-level" min="0" max="5" step="1" value="0"></td>
+                        <td><input type="number" class="input" name="power-level" min="0" max="0" step="1" value="0"></td>
+                        <td><input type="number" class="input" name="speed-level" min="0" max="0" step="1" value="0"></td>
+                        <td><input type="number" class="input" name="kata-level" min="0" max="5" step="1" value="0"></td>
+                        <td><input type="number" class="input" name="syubi-level" min="0" max="5" step="1" value="0"></td>
+                        <td><input type="number" class="input" name="hokyu-level" min="0" max="5" step="1" value="0"></td>
+                    </tr>
+                </table>
+            </section>
+
+            <section class="input-remaining-point">
+                <h2>・基礎上限突破</h2>
+                <table class ="table table-striped table-bordered table-condensed" id="base-limit-table">
+                    <tr>
+                        <th>ミート</th>
+                        <th>パワー</th>
+                        <th>走力</th>
+                        <th>肩力</th>
+                        <th>守備力</th>
+                        <th>捕球</th>
+                    </tr>
+                    <tr>
+                        <td><input type="number" class="input" name="meet-upper" min="100" max="116" step="1" value="102"></td>
+                        <td><input type="number" class="input" name="power-upper" min="100" max="100" step="1" value="100"></td>
+                        <td><input type="number" class="input" name="speed-upper" min="100" max="102" step="1" value="100"></td>
+                        <td><input type="number" class="input" name="kata-upper" min="100" max="104" step="1" value="102"></td>
+                        <td><input type="number" class="input" name="syubi-upper" min="100" max="110" step="1" value="102"></td>
+                        <td><input type="number" class="input" name="hokyu-upper" min="100" max="110" step="1" value="102"></td>
+                    </tr>
+                </table>
+            </section>
+
+            <section class="input-remaining-point">
+                <h2>・残り経験点</h2>
+                <table class ="table table-striped table-bordered table-condensed" id="remaining-point-table">
+                    <tr>
+                        <th>筋力</th>
+                        <th>敏捷</th>
+                        <th>技術</th>
+                        <th>変化球</th>
+                        <th>精神</th>
+                    </tr>
+                    <tr>
+                        <td><input type="number" class="input" name="power-remaining" min="1" max="999" step="1" value="700"></td>
+                        <td><input type="number" class="input" name="speed-remaining" min="1" max="999" step="1" value="700"></td>
+                        <td><input type="number" class="input" name="technic-remaining" min="1" max="999" step="1" value="700"></td>
+                        <td><input type="number" class="input" name="braking-remaining" min="1" max="999" step="1" value="700"></td>
+                        <td><input type="number" class="input" name="mental-remaining" min="1" max="999" step="1" value="700"></td>
+                    </tr>
+                </table>
+            </section>
+
+            <section class="input-remaining-point">
+                <h2>・基礎能力の現在値</h2>
+                <table class ="table table-striped table-bordered table-condensed" id="current-base-table">
+                    <tr>
+                        <th>弾道</th>
+                        <th>ミート</th>
+                        <th>パワー</th>
+                        <th>走力</th>
+                        <th>肩力</th>
+                        <th>守備力</th>
+                        <th>捕球</th>
+                    </tr>
+                    <tr>
+                        <td><input type="number" class="input" name="current-ballistic" min="1" max="4" step="1" value="2"></td>
+                        <td><input type="number" class="input" name="current-meat" min="1" max="110" step="1" value="80"></td>
+                        <td><input type="number" class="input" name="current-power" min="1" max="110" step="1" value="76"></td>
+                        <td><input type="number" class="input" name="current-speed" min="1" max="110" step="1" value="30"></td>
+                        <td><input type="number" class="input" name="current-kata" min="1" max="110" step="1" value="70"></td>
+                        <td><input type="number" class="input" name="current-defense" min="1" max="104" step="1" value="80"></td>
+                        <td><input type="number" class="input" name="current-error" min="1" max="104" step="1" value="90"></td>
+                    </tr>
+                </table>
+            </section>
+
+            <section class="input-avility-level">
+                <h2>・特殊能力</h2>
+                <div onclick="obj=document.getElementById('menu1').style; obj.display=(obj.display=='none')?'block':'none';">
+                    <a style="cursor:pointer; color:white;" class="btn-square">▼ 入力</a>
+                </div>
+                <div id="menu1">
+                <table class ="table table-striped table-bordered table-condensed" id="blue-avility">
+                    <tr>
+                        <th class="having-avility">所持コツ</th>
+                        <th>青コツレベル</th>
+                        <th>金コツレベル</th>
+                    </tr>
+                </table>
+                </div>
+            </section>
+            <input type="text" name="get_avility_str" id="get_avility_str" style=" display:none;width:0px; height:0px; position:relative; left:0px;top:320px;">
+            <input type="submit" id="submit_button" class="btn btn-primary" name="test" onclick="get_buttons_content()" value="実行" style="position: relative; left: 490px; top: 0px; width:90px;">
+        </form> 
+    </div>
+    <div class="content active" id="output">
+        <h2 style="color:black; margin-bottom:15px;">・基礎値</h2>
+        <table class ="table table-striped table-bordered table-condensed" id="final-base-table">
+            <tr>
+                <th>弾道</th>
+                <th>ミート</th>
+                <th>パワー</th>
+                <th>走力</th>
+                <th>肩力</th>
+                <th>守備力</th>
+                <th>捕球</th>
+            </tr>
+            <tr>
+                {% for val in final_base_list%}
+                <td>{{val}}</td>
+                {% endfor %}
+            </tr>
+        </table>
+        <div class="display-ability">
+            <h2 style="color:black; margin-bottom:20px;">・特殊能力</h2>
+            <ul class="abilityDisplay">       
+                {% for avility in final_avility_list%}
+                    {% if (is_gold_list[loop.index-1]) == 0 %}
+                        <li class="output_list">{{avility}}</li>
+                    {% else %}
+                        <li class="output_list_gold">{{avility}}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>    
+        </div>
+    </div>
+    <!-- </div>-->
+    <script>
+        (function() {
+            'use strict';
+        
+            var menuItems = document.getElementsByClassName('menu_item');
+            var contents = document.getElementsByClassName('content');
+            var i;
+        
+            for (i = 0; i < menuItems.length; i++) {
+                menuItems[i].addEventListener('click', function(e) {
+                e.preventDefault();
+        
+                var i;
+        
+                for (i = 0; i < menuItems.length; i++) {
+                    menuItems[i].className = 'menu_item';
+                }
+        
+                this.className = 'menu_item active';
+        
+                for (i = 0; i < contents.length; i++) {
+                    contents[i].className = 'content';
+                }
+        
+                document.getElementById(this.dataset.id).className = 'content active';
+        
+                });
+            }
+        
+            })();
+        </script>
+      </body>
+    </html>
+
+
+
