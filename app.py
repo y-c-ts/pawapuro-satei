@@ -6,6 +6,7 @@ import os
 from preprocess import DataAggreagation
 from optimize import MaximizeScore
 from data import GOLD_LIST
+import pandas as pd
 
 app = Flask(__name__)
 @app.route('/', methods=['GET'])
